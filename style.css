@@ -1,81 +1,233 @@
-/* Estilos para o Quiz de Múltipla Escolha */
-.opcoes-container {
-  margin: 20px 0;
+// Navegação entre seções
+const links = document.querySelectorAll('header nav a');
+const sections = document.querySelectorAll('main > section');
+
+links.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const targetId = link.getAttribute('href').replace('#','');
+    sections.forEach(section => {
+      if(section.id === targetId){
+        section.style.display = 'block';
+      } else {
+        section.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Ao carregar a página, mostra só a primeira seção
+window.addEventListener('load', () => {
+  sections.forEach((section, index) => {
+    section.style.display = index === 0 ? 'block' : 'none';
+  });
+});
+
+// --- LÓGICA DO QUIZ DE MÚLTIPLA ESCOLHA --- //
+
+const perguntas = [
+  {
+    pergunta: "O que é inclusão digital?",
+    opcoes: [
+      "Apenas ter acesso à internet",
+      "Garantir acesso às tecnologias e capacidade de usá-las",
+      "Comprar equipamentos eletrônicos caros",
+      "Usar redes sociais diariamente"
+    ],
+    respostaCorreta: 1
+  },
+  {
+    pergunta: "Qual destes é um dos principais desafios da exclusão digital?",
+    opcoes: [
+      "Excesso de opções de lazer digital",
+      "Falta de acesso à internet de qualidade",
+      "Muitos aplicativos disponíveis",
+      "Velocidade rápida da internet"
+    ],
+    respostaCorreta: 1
+  },
+  {
+    pergunta: "Por que a inclusão digital é importante para a educação?",
+    opcoes: [
+      "Permite acessar conteúdos e cursos online",
+      "Substitui completamente a escola presencial",
+      "Torna os professores desnecessários",
+      "Apenas para jogos educativos"
+    ],
+    respostaCorreta: 0
+  },
+  {
+    pergunta: "O que NÃO é uma barreira para a inclusão digital?",
+    opcoes: [
+      "Falta de conhecimento sobre ferramentas digitais",
+      "Dificuldade para adquirir computadores e celulares",
+      "Excesso de opções de cursos gratuitos online",
+      "Falta de acesso à internet de qualidade"
+    ],
+    respostaCorreta: 2
+  },
+  {
+    pergunta: "Como a inclusão digital pode ajudar na busca por emprego?",
+    opcoes: [
+      "Apenas para enviar e-mails",
+      "Permite procurar vagas online e fazer cursos de qualificação",
+      "Substitui a necessidade de currículo",
+      "Apenas para usar redes sociais profissionais"
+    ],
+    respostaCorreta: 1
+  },
+  {
+    pergunta: "Qual destas iniciativas promove a inclusão digital?",
+    opcoes: [
+      "Aumentar o preço dos planos de internet",
+      "Oferecer cursos gratuitos de informática básica",
+      "Restringir o acesso a bibliotecas digitais",
+      "Diminuir pontos de internet pública"
+    ],
+    respostaCorreta: 1
+  },
+  {
+    pergunta: "O que significa acessibilidade digital?",
+    opcoes: [
+      "Ter internet rápida",
+      "Garantir que pessoas com deficiência possam usar tecnologias",
+      "Comprar o celular mais moderno",
+      "Usar apenas aplicativos pagos"
+    ],
+    respostaCorreta: 1
+  },
+  {
+    pergunta: "Qual é um benefício da inclusão digital para idosos?",
+    opcoes: [
+      "Isolamento social",
+      "Comunicação com familiares distantes",
+      "Dependência de outras pessoas",
+      "Dificuldade de aprendizado"
+    ],
+    respostaCorreta: 1
+  },
+  {
+    pergunta: "O que é cidadania digital?",
+    opcoes: [
+      "Ter muitos seguidores nas redes sociais",
+      "Usar a tecnologia de forma consciente e responsável",
+      "Comprar produtos digitais caros",
+      "Saber programar computadores"
+    ],
+    respostaCorreta: 1
+  },
+  {
+    pergunta: "Como podemos combater a exclusão digital?",
+    opcoes: [
+      "Aumentando os impostos sobre tecnologia",
+      "Oferecendo acesso gratuito à internet em espaços públicos",
+      "Restringindo o uso de redes sociais",
+      "Diminuindo o número de computadores nas escolas"
+    ],
+    respostaCorreta: 1
+  }
+];
+
+let perguntaAtual = 0;
+let respostasUsuario = Array(perguntas.length).fill(null);
+let pontuacao = 0;
+
+const elementos = {
+  pergunta: document.getElementById('pergunta'),
+  opcoes: document.getElementById('opcoes'),
+  anterior: document.getElementById('anterior'),
+  proxima: document.getElementById('proxima'),
+  enviar: document.getElementById('enviar'),
+  progresso: document.getElementById('progresso'),
+  quizContainer: document.getElementById('quiz-container'),
+  resultado: document.getElementById('resultado'),
+  pontuacaoFinal: document.getElementById('pontuacao-final'),
+  mensagemResultado: document.getElementById('mensagem-resultado'),
+  reiniciar: document.getElementById('reiniciar')
+};
+
+function carregarPergunta() {
+  const pergunta = perguntas[perguntaAtual];
+  
+  elementos.pergunta.textContent = `Pergunta ${perguntaAtual + 1}: ${pergunta.pergunta}`;
+  elementos.opcoes.innerHTML = '';
+  
+  pergunta.opcoes.forEach((opcao, index) => {
+    const botaoOpcao = document.createElement('div');
+    botaoOpcao.className = `opcao ${respostasUsuario[perguntaAtual] === index ? 'selecionada' : ''}`;
+    botaoOpcao.textContent = opcao;
+    botaoOpcao.addEventListener('click', () => selecionarOpcao(index));
+    elementos.opcoes.appendChild(botaoOpcao);
+  });
+  
+  elementos.anterior.style.display = perguntaAtual === 0 ? 'none' : 'inline-block';
+  elementos.proxima.style.display = perguntaAtual === perguntas.length - 1 ? 'none' : 'inline-block';
+  elementos.enviar.style.display = perguntaAtual === perguntas.length - 1 ? 'inline-block' : 'none';
+  elementos.progresso.textContent = `Pergunta ${perguntaAtual + 1} de ${perguntas.length}`;
 }
 
-.opcao {
-  display: block;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+function selecionarOpcao(index) {
+  respostasUsuario[perguntaAtual] = index;
+  carregarPergunta();
 }
 
-.opcao:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+function proximaPergunta() {
+  if (perguntaAtual < perguntas.length - 1) {
+    perguntaAtual++;
+    carregarPergunta();
+  }
 }
 
-.opcao.selecionada {
-  background: rgba(255, 255, 255, 0.4);
-  border-color: #6A0DAD;
-  font-weight: bold;
+function perguntaAnterior() {
+  if (perguntaAtual > 0) {
+    perguntaAtual--;
+    carregarPergunta();
+  }
 }
 
-#progresso {
-  text-align: center;
-  margin-top: 20px;
-  font-weight: bold;
-  font-size: 16px;
+function calcularPontuacao() {
+  pontuacao = 0;
+  perguntas.forEach((pergunta, index) => {
+    if (respostasUsuario[index] === pergunta.respostaCorreta) {
+      pontuacao++;
+    }
+  });
+  return pontuacao;
 }
 
-.resultado-container {
-  text-align: center;
-  padding: 20px;
+function mostrarResultado() {
+  const pontuacaoFinal = calcularPontuacao();
+  elementos.quizContainer.style.display = 'none';
+  elementos.resultado.style.display = 'block';
+  elementos.pontuacaoFinal.textContent = `Sua pontuação: ${pontuacaoFinal}/${perguntas.length}`;
+  
+  let mensagem = '';
+  if (pontuacaoFinal >= 9) {
+    mensagem = '🎉 Excelente! Você domina o tema da inclusão digital!';
+  } else if (pontuacaoFinal >= 7) {
+    mensagem = '👍 Muito bom! Você tem bom conhecimento sobre inclusão digital.';
+  } else if (pontuacaoFinal >= 5) {
+    mensagem = '💡 Bom! Você conhece o básico, mas pode aprender mais.';
+  } else {
+    mensagem = '📚 Continue aprendendo sobre inclusão digital!';
+  }
+  
+  elementos.mensagemResultado.textContent = mensagem;
 }
 
-#pontuacao-final {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 20px 0;
+function reiniciarQuiz() {
+  perguntaAtual = 0;
+  respostasUsuario = Array(perguntas.length).fill(null);
+  elementos.quizContainer.style.display = 'block';
+  elementos.resultado.style.display = 'none';
+  carregarPergunta();
 }
 
-#mensagem-resultado {
-  font-size: 18px;
-  margin: 20px 0;
-}
+// Event Listeners
+elementos.anterior.addEventListener('click', perguntaAnterior);
+elementos.proxima.addEventListener('click', proximaPergunta);
+elementos.enviar.addEventListener('click', mostrarResultado);
+elementos.reiniciar.addEventListener('click', reiniciarQuiz);
 
-.botoes {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.botoes button {
-  background-color: white;
-  color: #6A0DAD;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 16px;
-}
-
-.botoes button:hover {
-  background-color: #6A0DAD;
-  color: white;
-  transform: translateY(-2px);
-}
-
-.botoes button:disabled {
-  background-color: #cccccc;
-  color: #666666;
-  cursor: not-allowed;
-  transform: none;
-}
+// Inicializar quiz
+carregarPergunta();
