@@ -1,200 +1,81 @@
-main > section {
-  display: none;
+/* Estilos para o Quiz de Múltipla Escolha */
+.opcoes-container {
+  margin: 20px 0;
 }
 
-header {
-  height: 150px;                  
-  background: linear-gradient(135deg, #6A0DAD, #00FFFF);                    
-  justify-content: center;   
-  display: flex;
-  flex-direction: column;     
-  align-items: center; 
-  gap: 1px;  
-
-  color: white; 
-  border-radius: 25px;       
-  box-shadow: 0 5px 15px rgba(0,0,0,0.5);          
-}
-
-
-header h1 {
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 40px;
-}
-
-header nav {
-  display: flex;
-  justify-content: center; 
-  gap: 20px; 
-}
-
-
-header nav a{
-  text-align: center;
-  font-family: Poppins;
-  font-size: 15px;
-  color: white;
-  text-decoration: none;
-}
-
-header nav a:hover {
-  text-decoration: underline;
-}
-
-section {
-  max-width: 900px;       
-  margin: 30px auto;      
-  padding: 25px;
-  border-radius: 15px;    
-  background-color: #f0f0f0;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-section h2 {
-  font-family: 'Montserrat', sans-serif;
-  color: #4a148c;
-  font-size: 28px;
-  margin-bottom: 15px;
-}
-
-section p, section li {
-  font-family: 'Arial', sans-serif;
-  font-size: 18px;
-  color: #333;
-  line-height: 1.6;
-}
-
-section ul {
-  padding-left: 20px;
-}
-
-
-#o-que-e.card {
-  background: linear-gradient(135deg, #90CAF9, #008cff); 
-}
-
-#por-que.card {
-  background: linear-gradient(135deg, #CE93D8, #d900ff); 
-}
-
-#desafios.card {
-  background: linear-gradient(135deg, #A5D6A7, #00ff0d); 
-}
-
-#objetivo.card {
-  background: linear-gradient(135deg, #FFCC80, #ff9900); 
-}
-
-#introdução.card {
-  background: linear-gradient(135deg, #BA68C8, #AB47BC); 
-}
-
-#videos.card {
-  background: linear-gradient(135deg, #F48FB1, #F06292); /* rosa suave */
-}
-
-#links.card {
-  background: linear-gradient(135deg, #FF8A65, #FF7043); /* verde claro */
-}
-
-
-#inicio {
-  background-image: url('');
-  background-size: cover;      
-  background-position: center; 
-  background-repeat: no-repeat;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-a.botao {
-  display: inline-block;
-  padding: 10px 20px;
-  background: linear-gradient(45deg, #6A0DAD, #00FFFF);
-  color: white;
-  font-weight: bold;
-  border-radius: 25px;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-a.botao:hover {
-  transform: scale(1.05);
-  background: linear-gradient(45deg, #00FFFF, #6A0DAD);
-}
-
-
-.video iframe {
-  width: 100%;
-  height: 350px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-
-
-footer {
-  text-align: center;
+.opcao {
+  display: block;
+  background: rgba(255, 255, 255, 0.2);
   padding: 15px;
-  background: #6A0DAD;
-  color: white;
-  margin-top: 30px;
-  border-radius: 15px 15px 0 0;
-}
-
-.quiz-card {
-  background: linear-gradient(135deg, #E1BEE7, #BA68C8);
-  color: white;
-}
-
-.quiz-card textarea {
-  width: 100%;
-  height: 100px;
+  margin: 10px 0;
   border-radius: 10px;
-  border: none;
-  padding: 10px;
-  margin-top: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.opcao:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.opcao.selecionada {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: #6A0DAD;
+  font-weight: bold;
+}
+
+#progresso {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
   font-size: 16px;
-  resize: none;
+}
+
+.resultado-container {
+  text-align: center;
+  padding: 20px;
+}
+
+#pontuacao-final {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+#mensagem-resultado {
+  font-size: 18px;
+  margin: 20px 0;
 }
 
 .botoes {
-  margin-top: 15px;
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .botoes button {
   background-color: white;
   color: #6A0DAD;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
+  font-size: 16px;
 }
 
 .botoes button:hover {
   background-color: #6A0DAD;
   color: white;
+  transform: translateY(-2px);
 }
 
-.feedback {
-  margin-top: 15px;
-  font-size: 18px;
-  background-color: rgba(255,255,255,0.2);
-  padding: 10px;
-  border-radius: 10px;
+.botoes button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
 }
